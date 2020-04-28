@@ -2,10 +2,9 @@
 #include "iStack.h"
 #include <stdexcept>
 
-#define DllExport   __declspec( dllexport )
 
 template <class Type>
-class Stack : public iStack<Type>
+class DynamicArrayStack : public iStack<Type>
 {
 	static const unsigned int oneElement;
 	Type* arrayOfElements;
@@ -23,14 +22,14 @@ class Stack : public iStack<Type>
 
 public:
 
-	Stack();
-	Stack(unsigned int size, bool constSize = false);
-	~Stack() { delete[] arrayOfElements; }
+	DynamicArrayStack();
+	DynamicArrayStack(unsigned int size, bool constSize = false);
+	~DynamicArrayStack() { delete[] arrayOfElements; }
 
 	bool HasConstSize();
 	
 	//Overrides
-	int size() override;
+	unsigned int size() override;
 
 	void clear() override;
 
@@ -44,20 +43,20 @@ public:
 
 
 template<class Type>
-inline int Stack<Type>::size()
+inline unsigned int DynamicArrayStack<Type>::size()
 {
 	return this->_size;
 }
 
 template<class Type>
-inline void Stack<Type>::clear()
+inline void DynamicArrayStack<Type>::clear()
 {
 	delete[] arrayOfElements;
 	InitStack();
 }
 
 template<class Type>
-inline void Stack<Type>::push(Type item) 
+inline void DynamicArrayStack<Type>::push(Type item) 
 {
 	if (HasConstSize() )
 	{
@@ -77,13 +76,13 @@ inline void Stack<Type>::push(Type item)
 }
 
 template<class Type>
-inline bool Stack<Type>::isEmpty()
+inline bool DynamicArrayStack<Type>::isEmpty()
 {
 	return (this->elementsCount == 0);
 }
 
 template<class Type>
-inline Type Stack<Type>::pop()
+inline Type DynamicArrayStack<Type>::pop()
 {
 	if (elementsCount <= 0)
 		throw std::out_of_range("There are no elements in the stack");
@@ -104,7 +103,7 @@ inline Type Stack<Type>::pop()
 }
 
 template<class Type>
-inline Type Stack<Type>::peek() 
+inline Type DynamicArrayStack<Type>::peek() 
 {
 	if (elementsCount <= 0)
 		throw std::out_of_range("There are no elements in the stack");
@@ -113,7 +112,7 @@ inline Type Stack<Type>::peek()
 }
 
 template<class Type>
-void Stack<Type>::InitStack()
+void DynamicArrayStack<Type>::InitStack()
 {
 	this->constSize = false;
 	this->_size = 0;
@@ -122,13 +121,13 @@ void Stack<Type>::InitStack()
 }
 
 template<class Type>
-Stack<Type>::Stack() 
+DynamicArrayStack<Type>::DynamicArrayStack() 
 {
 	InitStack();
 }
 
 template<class Type>
-Stack<Type>::Stack(unsigned int size, bool constSize) : _size(size), constSize(constSize), elementsCount(0)
+DynamicArrayStack<Type>::DynamicArrayStack(unsigned int size, bool constSize) : _size(size), constSize(constSize), elementsCount(0)
 {
 	if (size <= 0)
 		throw std::out_of_range("Size of Stack cannot be less than '1' ");
@@ -137,7 +136,7 @@ Stack<Type>::Stack(unsigned int size, bool constSize) : _size(size), constSize(c
 }
 
 template<class Type>
-void Stack<Type>::ResizeAlloc(unsigned int newSize)
+void DynamicArrayStack<Type>::ResizeAlloc(unsigned int newSize)
 {
 	if (newSize <= 0)
 	{
@@ -169,10 +168,10 @@ void Stack<Type>::ResizeAlloc(unsigned int newSize)
 }
 
 template<class Type>
-bool Stack<Type>::HasConstSize()
+bool DynamicArrayStack<Type>::HasConstSize()
 {
 	return this->constSize;
 }
 
 template<class Type>
-const unsigned int Stack<Type>::oneElement = 1;
+const unsigned int DynamicArrayStack<Type>::oneElement = 1;

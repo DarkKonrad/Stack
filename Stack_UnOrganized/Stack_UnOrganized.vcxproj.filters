@@ -23,7 +23,10 @@
     <ClInclude Include="iStack.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Stack.h">
+    <ClInclude Include="DynamicArrayStack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LinkedListStack.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -6,8 +6,8 @@ class iStack
 {
 	
 	//Methods
-protected:
-	virtual	int size()=0;
+public:
+	virtual	unsigned int size()=0;
 
 	virtual	void clear()=0;
 
